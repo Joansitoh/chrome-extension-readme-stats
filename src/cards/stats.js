@@ -10,7 +10,7 @@ import {
   kFormatter,
   measureText,
 } from "../common/utils.js";
-import { statCardLocales, wakatimeCardLocales } from "../translations.js";
+import { statCardLocales } from "../translations.js";
 
 const CARD_MIN_WIDTH = 287;
 const CARD_DEFAULT_WIDTH = 287;
@@ -242,10 +242,7 @@ const renderStatsCard = (stats, options = {}) => {
   const apostrophe = /s$/i.test(name.trim()) ? "" : "s";
   const i18n = new I18n({
     locale,
-    translations: {
-      ...statCardLocales({ name, apostrophe }),
-      ...wakatimeCardLocales,
-    },
+    translations: statCardLocales({ name, apostrophe }),
   });
 
   const STATS = {

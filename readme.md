@@ -43,7 +43,7 @@ Copy-paste this into your markdown content, and that's it. Simple!
 Change the `extension_id` value to your Chrome Web Store extension's ID.
 
 ```md
-[![Extension Stats](https://chrome-extension-readme-stats.vercel.app/api?extension_id=nkbihfbeogaeaoehlefnkodbefgpgknn)](https://github.com/Joansitoh/chrome-extension-readme-stats)
+[![Extension Stats](https://chrome-extension-readme-stats.vercel.app/api?extension_id=jhdflfacjalpcajleapijmclnbilnjlh)](https://github.com/Joansitoh/chrome-extension-readme-stats)
 ```
 
 ## Finding Your Extension ID
@@ -55,7 +55,7 @@ https://chrome.google.com/webstore/detail/extension-name/EXTENSION_ID_HERE
                                                          ^^^^^^^^^^^^
 ```
 
-For example, MetaMask's extension ID is: `nkbihfbeogaeaoehlefnkodbefgpgknn`
+For example: `jhdflfacjalpcajleapijmclnbilnjlh`
 
 ## Hiding Individual Stats
 
@@ -111,7 +111,7 @@ We have included a `transparent` theme that has a transparent background. This t
 <details>
 <summary>:eyes: Show example</summary>
 
-![Extension Stats](https://chrome-extension-readme-stats.vercel.app/api?extension_id=nkbihfbeogaeaoehlefnkodbefgpgknn&show_icons=true&theme=transparent)
+![Extension Stats](https://chrome-extension-readme-stats.vercel.app/api?extension_id=jhdflfacjalpcajleapijmclnbilnjlh&show_icons=true&theme=transparent)
 
 </details>
 
@@ -126,7 +126,7 @@ You can use the `bg_color` parameter to make any of [the available themes](./the
 <details>
 <summary>:eyes: Show example</summary>
 
-![Extension Stats](https://chrome-extension-readme-stats.vercel.app/api?extension_id=nkbihfbeogaeaoehlefnkodbefgpgknn&show_icons=true&bg_color=00000000)
+![Extension Stats](https://chrome-extension-readme-stats.vercel.app/api?extension_id=jhdflfacjalpcajleapijmclnbilnjlh&show_icons=true&bg_color=00000000)
 
 </details>
 
@@ -142,8 +142,8 @@ You can use [GitHub's theme context](https://github.blog/changelog/2021-11-24-sp
 <details>
 <summary>:eyes: Show example</summary>
 
-[![Extension Stats - Dark](https://chrome-extension-readme-stats.vercel.app/api?extension_id=nkbihfbeogaeaoehlefnkodbefgpgknn&show_icons=true&theme=dark#gh-dark-mode-only)](https://github.com/Joansitoh/chrome-extension-readme-stats#gh-dark-mode-only)
-[![Extension Stats - Light](https://chrome-extension-readme-stats.vercel.app/api?extension_id=nkbihfbeogaeaoehlefnkodbefgpgknn&show_icons=true&theme=default#gh-light-mode-only)](https://github.com/Joansitoh/chrome-extension-readme-stats#gh-light-mode-only)
+[![Extension Stats - Dark](https://chrome-extension-readme-stats.vercel.app/api?extension_id=jhdflfacjalpcajleapijmclnbilnjlh&show_icons=true&theme=dark#gh-dark-mode-only)](https://github.com/Joansitoh/chrome-extension-readme-stats#gh-dark-mode-only)
+[![Extension Stats - Light](https://chrome-extension-readme-stats.vercel.app/api?extension_id=jhdflfacjalpcajleapijmclnbilnjlh&show_icons=true&theme=default#gh-light-mode-only)](https://github.com/Joansitoh/chrome-extension-readme-stats#gh-light-mode-only)
 
 </details>
 
@@ -170,14 +170,14 @@ You can use [GitHub's new media feature](https://github.blog/changelog/2022-05-1
 
 <picture>
   <source
-    srcset="https://chrome-extension-readme-stats.vercel.app/api?extension_id=nkbihfbeogaeaoehlefnkodbefgpgknn&show_icons=true&theme=dark"
+    srcset="https://chrome-extension-readme-stats.vercel.app/api?extension_id=jhdflfacjalpcajleapijmclnbilnjlh&show_icons=true&theme=dark"
     media="(prefers-color-scheme: dark)"
   />
   <source
-    srcset="https://chrome-extension-readme-stats.vercel.app/api?extension_id=nkbihfbeogaeaoehlefnkodbefgpgknn&show_icons=true"
+    srcset="https://chrome-extension-readme-stats.vercel.app/api?extension_id=jhdflfacjalpcajleapijmclnbilnjlh&show_icons=true"
     media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
   />
-  <img src="https://chrome-extension-readme-stats.vercel.app/api?extension_id=nkbihfbeogaeaoehlefnkodbefgpgknn&show_icons=true" />
+  <img src="https://chrome-extension-readme-stats.vercel.app/api?extension_id=jhdflfacjalpcajleapijmclnbilnjlh&show_icons=true" />
 </picture>
 
 </details>
