@@ -58,7 +58,16 @@ const statCardLocales = ({ name, apostrophe }) => {
   };
 };
 
-// Removed unused wakatime locales - not needed for Chrome Extensions
+/**
+ * Check if a locale is available.
+ *
+ * @param {string} locale The locale to check.
+ * @returns {boolean} Whether the locale is available.
+ */
+const isLocaleAvailable = (locale) => {
+  const testLocales = statCardLocales({ name: "test", apostrophe: "" });
+  return Object.keys(testLocales["statcard.title"]).includes(locale);
+};
 
-export { statCardLocales };
+export { statCardLocales, isLocaleAvailable };
 export default statCardLocales;
