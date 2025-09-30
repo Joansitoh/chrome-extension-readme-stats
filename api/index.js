@@ -13,15 +13,14 @@ import { isLocaleAvailable } from "../src/translations.js";
 
 export default async (req, res) => {
   const {
-    username,
+    extension_id,
+    developer_name,
     hide,
     hide_title,
     hide_border,
     card_width,
     hide_rank,
     show_icons,
-    include_all_commits,
-    commits_year,
     line_height,
     title_color,
     ring_color,
@@ -31,7 +30,6 @@ export default async (req, res) => {
     bg_color,
     theme,
     cache_seconds,
-    exclude_repo,
     custom_title,
     locale,
     disable_animations,
@@ -39,14 +37,13 @@ export default async (req, res) => {
     number_format,
     border_color,
     rank_icon,
-    show,
   } = req.query;
   res.setHeader("Content-Type", "image/svg+xml");
 
-  if (whitelist && !whitelist.includes(username)) {
+  if (whitelist && !whitelist.includes(extension_id)) {
     return res.send(
       renderError(
-        "This username is not whitelisted",
+        "This extension ID is not whitelisted",
         "Please deploy your own instance",
         {
           title_color,
@@ -60,10 +57,10 @@ export default async (req, res) => {
     );
   }
 
-  if (whitelist === undefined && blacklist.includes(username)) {
+  if (whitelist === undefined && blacklist.includes(extension_id)) {
     return res.send(
       renderError(
-        "This username is blacklisted",
+        "This extension ID is blacklisted",
         "Please deploy your own instance",
         {
           title_color,
@@ -90,17 +87,7 @@ export default async (req, res) => {
   }
 
   try {
-    const showStats = parseArray(show);
-    const stats = await fetchStats(
-      username,
-      parseBoolean(include_all_commits),
-      parseArray(exclude_repo),
-      showStats.includes("prs_merged") ||
-        showStats.includes("prs_merged_percentage"),
-      showStats.includes("discussions_started"),
-      showStats.includes("discussions_answered"),
-      parseInt(commits_year, 10),
-    );
+    const stats = await fetchStats(extension_id, developer_name || "Developer");
 
     let cacheSeconds = clampValue(
       parseInt(cache_seconds || CONSTANTS.CARD_CACHE_SECONDS, 10),
@@ -124,8 +111,6 @@ export default async (req, res) => {
         hide_border: parseBoolean(hide_border),
         card_width: parseInt(card_width, 10),
         hide_rank: parseBoolean(hide_rank),
-        include_all_commits: parseBoolean(include_all_commits),
-        commits_year: parseInt(commits_year, 10),
         line_height,
         title_color,
         ring_color,
@@ -141,7 +126,6 @@ export default async (req, res) => {
         locale: locale ? locale.toLowerCase() : null,
         disable_animations: parseBoolean(disable_animations),
         rank_icon,
-        show: showStats,
       }),
     );
   } catch (err) {

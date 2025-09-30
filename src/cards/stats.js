@@ -188,21 +188,6 @@ const getStyles = ({
 };
 
 /**
- * Return the label for commits according to the selected options
- *
- * @param {boolean} include_all_commits Option to include all years
- * @param {number|undefined} commits_year Option to include only selected year
- * @param {I18n} i18n The I18n instance.
- * @returns {string} The label corresponding to the options.
- */
-const getTotalCommitsYearLabel = (include_all_commits, commits_year, i18n) =>
-  include_all_commits
-    ? ""
-    : commits_year
-      ? ` (${commits_year})`
-      : ` (${i18n.t("wakatimecard.lastyear")})`;
-
-/**
  * @typedef {import('../fetchers/types').StatsData} StatsData
  * @typedef {import('./types').StatCardOptions} StatCardOptions
  */
@@ -215,20 +200,7 @@ const getTotalCommitsYearLabel = (include_all_commits, commits_year, i18n) =>
  * @returns {string} The stats card SVG object.
  */
 const renderStatsCard = (stats, options = {}) => {
-  const {
-    name,
-    totalStars,
-    totalCommits,
-    totalIssues,
-    totalPRs,
-    totalPRsMerged,
-    mergedPRsPercentage,
-    totalReviews,
-    totalDiscussionsStarted,
-    totalDiscussionsAnswered,
-    contributedTo,
-    rank,
-  } = stats;
+  const { name, totalUsers, totalRatings, ratingScore, rank } = stats;
   const {
     hide = [],
     show_icons = false,
@@ -236,8 +208,6 @@ const renderStatsCard = (stats, options = {}) => {
     hide_border = false,
     card_width,
     hide_rank = false,
-    include_all_commits = false,
-    commits_year,
     line_height = 25,
     title_color,
     ring_color,
@@ -253,7 +223,6 @@ const renderStatsCard = (stats, options = {}) => {
     locale,
     disable_animations = false,
     rank_icon = "default",
-    show = [],
   } = options;
 
   const lheight = parseInt(String(line_height), 10);
@@ -279,89 +248,25 @@ const renderStatsCard = (stats, options = {}) => {
     },
   });
 
-  // Meta data for creating text nodes with createTextNode function
-  const STATS = {};
-
-  STATS.stars = {
-    icon: icons.star,
-    label: i18n.t("statcard.totalstars"),
-    value: totalStars,
-    id: "stars",
-  };
-  STATS.commits = {
-    icon: icons.commits,
-    label: `${i18n.t("statcard.commits")}${getTotalCommitsYearLabel(
-      include_all_commits,
-      commits_year,
-      i18n,
-    )}`,
-    value: totalCommits,
-    id: "commits",
-  };
-  STATS.prs = {
-    icon: icons.prs,
-    label: i18n.t("statcard.prs"),
-    value: totalPRs,
-    id: "prs",
-  };
-
-  if (show.includes("prs_merged")) {
-    STATS.prs_merged = {
-      icon: icons.prs_merged,
-      label: i18n.t("statcard.prs-merged"),
-      value: totalPRsMerged,
-      id: "prs_merged",
-    };
-  }
-
-  if (show.includes("prs_merged_percentage")) {
-    STATS.prs_merged_percentage = {
-      icon: icons.prs_merged_percentage,
-      label: i18n.t("statcard.prs-merged-percentage"),
-      value: mergedPRsPercentage.toFixed(2),
-      id: "prs_merged_percentage",
-      unitSymbol: "%",
-    };
-  }
-
-  if (show.includes("reviews")) {
-    STATS.reviews = {
-      icon: icons.reviews,
-      label: i18n.t("statcard.reviews"),
-      value: totalReviews,
-      id: "reviews",
-    };
-  }
-
-  STATS.issues = {
-    icon: icons.issues,
-    label: i18n.t("statcard.issues"),
-    value: totalIssues,
-    id: "issues",
-  };
-
-  if (show.includes("discussions_started")) {
-    STATS.discussions_started = {
-      icon: icons.discussions_started,
-      label: i18n.t("statcard.discussions-started"),
-      value: totalDiscussionsStarted,
-      id: "discussions_started",
-    };
-  }
-  if (show.includes("discussions_answered")) {
-    STATS.discussions_answered = {
-      icon: icons.discussions_answered,
-      label: i18n.t("statcard.discussions-answered"),
-      value: totalDiscussionsAnswered,
-      id: "discussions_answered",
-    };
-  }
-
-  STATS.contribs = {
-    icon: icons.contribs,
-    label: i18n.t("statcard.contribs"),
-    value: contributedTo,
-    id: "contribs",
+  const STATS = {
+    users: {
+      icon: icons.star,
+      label: "Total Users",
+      value: totalUsers,
+      id: "users",
+    },
+    ratings: {
+      icon: icons.commits,
+      label: "Total Ratings",
+      value: totalRatings,
+      id: "ratings",
+    },
+    score: {
+      icon: icons.issues,
+      label: "Rating Score",
+      value: ratingScore,
+      id: "score",
+    },
   };
 
   const longLocales = [
@@ -536,16 +441,7 @@ const renderStatsCard = (stats, options = {}) => {
   // Accessibility Labels
   const labels = Object.keys(STATS)
     .filter((key) => !hide.includes(key))
-    .map((key) => {
-      if (key === "commits") {
-        return `${i18n.t("statcard.commits")} ${getTotalCommitsYearLabel(
-          include_all_commits,
-          commits_year,
-          i18n,
-        )} : ${STATS[key].value}`;
-      }
-      return `${STATS[key].label}: ${STATS[key].value}`;
-    })
+    .map((key) => `${STATS[key].label}: ${STATS[key].value}`)
     .join(", ");
 
   card.setAccessibilityLabel({

@@ -20,62 +20,37 @@ function log_normal_cdf(x) {
 }
 
 /**
- * Calculates the users rank.
+ * Calculates Chrome Extension rank based on 3 metrics:
+ * - users: number of installations
+ * - ratingScore: average rating (0-500, where 500 = 5.0 stars)
+ * - ratingCount: number of ratings received
  *
- * @param {object} params Parameters on which the user's rank depends.
- * @param {boolean} params.all_commits Whether `include_all_commits` was used.
- * @param {number} params.commits Number of commits.
- * @param {number} params.prs The number of pull requests.
- * @param {number} params.issues The number of issues.
- * @param {number} params.reviews The number of reviews.
- * @param {number} params.repos Total number of repos.
- * @param {number} params.stars The number of stars.
- * @param {number} params.followers The number of followers.
- * @returns {{ level: string, percentile: number }} The users rank.
+ * @param {object} params Extension metrics.
+ * @param {number} params.users Total installations.
+ * @param {number} params.ratingScore Rating (0-500).
+ * @param {number} params.ratingCount Number of ratings.
+ * @returns {{ level: string, percentile: number }} The extension's rank.
  */
-function calculateRank({
-  all_commits,
-  commits,
-  prs,
-  issues,
-  reviews,
-  // eslint-disable-next-line no-unused-vars
-  repos, // unused
-  stars,
-  followers,
-}) {
-  const COMMITS_MEDIAN = all_commits ? 1000 : 250,
-    COMMITS_WEIGHT = 2;
-  const PRS_MEDIAN = 50,
-    PRS_WEIGHT = 3;
-  const ISSUES_MEDIAN = 25,
-    ISSUES_WEIGHT = 1;
-  const REVIEWS_MEDIAN = 2,
-    REVIEWS_WEIGHT = 1;
-  const STARS_MEDIAN = 50,
-    STARS_WEIGHT = 4;
-  const FOLLOWERS_MEDIAN = 10,
-    FOLLOWERS_WEIGHT = 1;
+function calculateRank({ users, ratingScore, ratingCount }) {
+  const USERS_MEDIAN = 1000;
+  const USERS_WEIGHT = 5;
 
-  const TOTAL_WEIGHT =
-    COMMITS_WEIGHT +
-    PRS_WEIGHT +
-    ISSUES_WEIGHT +
-    REVIEWS_WEIGHT +
-    STARS_WEIGHT +
-    FOLLOWERS_WEIGHT;
+  const SCORE_MEDIAN = 400;
+  const SCORE_WEIGHT = 4;
+
+  const RATINGS_MEDIAN = 50;
+  const RATINGS_WEIGHT = 3;
+
+  const TOTAL_WEIGHT = USERS_WEIGHT + SCORE_WEIGHT + RATINGS_WEIGHT;
 
   const THRESHOLDS = [1, 12.5, 25, 37.5, 50, 62.5, 75, 87.5, 100];
   const LEVELS = ["S", "A+", "A", "A-", "B+", "B", "B-", "C+", "C"];
 
   const rank =
     1 -
-    (COMMITS_WEIGHT * exponential_cdf(commits / COMMITS_MEDIAN) +
-      PRS_WEIGHT * exponential_cdf(prs / PRS_MEDIAN) +
-      ISSUES_WEIGHT * exponential_cdf(issues / ISSUES_MEDIAN) +
-      REVIEWS_WEIGHT * exponential_cdf(reviews / REVIEWS_MEDIAN) +
-      STARS_WEIGHT * log_normal_cdf(stars / STARS_MEDIAN) +
-      FOLLOWERS_WEIGHT * log_normal_cdf(followers / FOLLOWERS_MEDIAN)) /
+    (USERS_WEIGHT * log_normal_cdf(users / USERS_MEDIAN) +
+      SCORE_WEIGHT * exponential_cdf(ratingScore / SCORE_MEDIAN) +
+      RATINGS_WEIGHT * exponential_cdf(ratingCount / RATINGS_MEDIAN)) /
       TOTAL_WEIGHT;
 
   const level = LEVELS[THRESHOLDS.findIndex((t) => rank * 100 <= t)];
