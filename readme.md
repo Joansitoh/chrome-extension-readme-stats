@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <a href="#demo">View Demo</a>
+  <a href="https://chrome-extension-readme-stats.vercel.app/api?extension_id=jhdflfacjalpcajleapijmclnbilnjlh">View Demo</a>
   ·
   <a href="https://github.com/Joansitoh/chrome-extension-readme-stats/issues/new/choose">Report Bug</a>
   ·
